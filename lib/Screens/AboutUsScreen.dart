@@ -1,10 +1,9 @@
 import 'package:farmx/CommonWidgets/AlertDialogue.dart';
+import 'package:farmx/CommonWidgets/ThemeTemplate.dart';
 import 'package:farmx/Constants/Constants.dart';
 import 'package:farmx/Services/auth.dart';
-import 'package:farmx/Services/location.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
@@ -34,81 +33,22 @@ class AboutUsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.white);
-    final location = Provider.of<LocationService>(context, listen: false);
-    return Scaffold(
-      backgroundColor: kDarkPrimaryColor,
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.arrow_back_ios,
-          ),
-          color: Colors.white,
-        ),
-        backgroundColor: kDarkPrimaryColor,
-        elevation: 0.0,
-        title: Text(
-          "Logout",
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: 'Roboto',
-            fontSize: 18.0,
-          ),
-        ),
-        centerTitle: true,
-      ),
-      body: ListView(
-        children: <Widget>[
-          Stack(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height - 82.0,
-                width: MediaQuery.of(context).size.width,
-                color: Colors.transparent,
+    return ThemeTemplate(
+      title: "Home",
+      child: Column(
+        children: [
+          Center(
+            child: TextButton.icon(
+              onPressed: () => _confirmSignOut(context),
+              icon: LineIcon(
+                LineIcons.alternateSignOut,
+                color: kBlack,
               ),
-              Positioned(
-                top: MediaQuery.of(context).size.height * 0.080,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(45.0),
-                      topRight: Radius.circular(45.0),
-                    ),
-                    color: Colors.white,
-                  ),
-                  height: MediaQuery.of(context).size.height * 2,
-                  width: MediaQuery.of(context).size.width,
-                ),
+              label: Text(
+                "Logout",
+                style: kLoginHeading,
               ),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: 15,
-                  horizontal: 25,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.4,
-                    ),
-                    Center(
-                      child: TextButton.icon(
-                        onPressed: () => _confirmSignOut(context),
-                        icon: LineIcon(
-                          LineIcons.alternateSignOut,
-                          color: kBlack,
-                        ),
-                        label: Text(
-                          "Logout",
-                          style: kLoginHeading,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
         ],
       ),

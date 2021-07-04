@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:farmx/CommonWidgets/ThemeTemplate.dart';
 import 'package:farmx/Screens/CurrentWeather.dart';
 import 'package:farmx/Screens/UserProfileScreen.dart';
 import 'package:farmx/Services/auth.dart';
@@ -10,7 +11,6 @@ import 'package:farmx/Widgets/FertilizerSuggestion/FertilizerSuggestionWidget.da
 import 'package:farmx/Widgets/GeneralCropInfo/GeneralCropInfoWidget.dart';
 import 'package:farmx/Widgets/PestDetection/PestDetectionWidget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:provider/provider.dart';
 
 import '../Constants/Constants.dart';
@@ -28,194 +28,122 @@ class _ToolScreenState extends State<ToolScreen> {
 
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.white);
     final auth = Provider.of<AuthBase>(context, listen: false);
 
-    return Scaffold(
-      backgroundColor: kDarkPrimaryColor,
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.arrow_back_ios,
-          ),
-          color: Colors.white,
-        ),
-        backgroundColor: kDarkPrimaryColor,
-        elevation: 0.0,
-        title: Text(
-          "Home",
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: 'Roboto',
-            fontSize: 18.0,
-          ),
-        ),
-        centerTitle: true,
-        actions: <Widget>[
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => Provider<Database>(
-                    create: (_) =>
-                        FireStoreDatabase(uid: auth.currentUser!.uid),
-                    builder: (context, child) => UserProfileScreen(),
-                  ),
-                ),
-              );
-            },
-            child: Container(
-              width: 50,
-              height: 50,
-              margin: EdgeInsets.only(
-                right: 10,
-                top: 10,
-              ),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 10,
-                    offset: Offset(0, 10),
-                    spreadRadius: 2,
-                  ),
-                ],
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage("assets/icons/profile-user.png"),
+    return ThemeTemplate(
+      title: "Home",
+      actions: <Widget>[
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => Provider<Database>(
+                  create: (_) => FireStoreDatabase(uid: auth.currentUser!.uid),
+                  builder: (context, child) => UserProfileScreen(),
                 ),
               ),
+            );
+          },
+          child: Container(
+            margin: EdgeInsets.only(
+              right: MediaQuery.of(context).size.width * 0.05,
+              top: MediaQuery.of(context).size.height * 0.008,
+            ),
+            child: Image(
+              image: AssetImage("assets/icons/settings.png"),
+              width: 30,
+              height: 30,
+              color: Colors.white,
             ),
           ),
-        ],
-      ),
-      body: ListView(
+        ),
+      ],
+      childPosition: MediaQuery.of(context).size.height * 0.08,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Stack(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height - 82.0,
-                width: MediaQuery.of(context).size.width,
-                color: Colors.transparent,
-              ),
-              Positioned(
-                top: MediaQuery.of(context).size.height * 0.080,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(45.0),
-                      topRight: Radius.circular(45.0),
-                    ),
-                    color: Colors.white,
-                  ),
-                  height: MediaQuery.of(context).size.height * 2,
-                  width: MediaQuery.of(context).size.width,
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: 15,
-                  horizontal: 25,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.005,
-                    ),
-                    CurrentWeatherPage(),
-                    Text(
-                      '$title',
-                      style: kGreetingsStyle,
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: SizedBox(
-                            height: 70.0,
-                            child: new ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: toolIcons.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return ToolContainer(
-                                  index: index,
-                                  getCurrentIndex: () => currentIndex,
-                                  setCurrentIndex: () {
-                                    setState(
-                                      () {
-                                        currentIndex = index;
-                                        title = toolIcons[index].name;
-                                        switch (title) {
-                                          case "Pest Detection":
-                                            toolWidget = PestDetectionWidget();
-                                            break;
-                                          case "Fertilizer":
-                                            toolWidget =
-                                                FertilizerSuggestionWidget();
-                                            break;
-                                          case "Crop Suggestion":
-                                            toolWidget = CropSuggestionWidget();
-                                            break;
-                                          case "General Crop-Info":
-                                            toolWidget =
-                                                GeneralCropInfoWidget();
-                                            break;
-                                          case "Co-Farming":
-                                            toolWidget = CoFarmingWidget();
-                                            break;
+          CurrentWeatherPage(),
+          Text(
+            '$title',
+            style: kGreetingsStyle,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: SizedBox(
+                  height: 70.0,
+                  child: new ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: toolIcons.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ToolContainer(
+                        index: index,
+                        getCurrentIndex: () => currentIndex,
+                        setCurrentIndex: () {
+                          setState(
+                            () {
+                              currentIndex = index;
+                              title = toolIcons[index].name;
+                              switch (title) {
+                                case "Pest Detection":
+                                  toolWidget = PestDetectionWidget();
+                                  break;
+                                case "Fertilizer":
+                                  toolWidget = FertilizerSuggestionWidget();
+                                  break;
+                                case "Crop Suggestion":
+                                  toolWidget = CropSuggestionWidget();
+                                  break;
+                                case "General Crop-Info":
+                                  toolWidget = GeneralCropInfoWidget();
+                                  break;
+                                case "Co-Farming":
+                                  toolWidget = CoFarmingWidget();
+                                  break;
 
-                                          default:
-                                            toolWidget = Container(
-                                              child: Text(
-                                                "Tool will be implemented Soon!",
-                                                style: kDefaultStyle,
-                                              ),
-                                            );
-                                        }
-                                      },
-                                    );
-                                  },
-                                );
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return SizedBox(
-                                  width: 5,
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Row(
-                      // mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Column(
-                          children: <Widget>[
-                            Container(
-                              child: toolWidget,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
+                                default:
+                                  toolWidget = Container(
+                                    child: Text(
+                                      "Tool will be implemented Soon!",
+                                      style: kDefaultStyle,
+                                    ),
+                                  );
+                              }
+                            },
+                          );
+                        },
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(
+                        width: 5,
+                      );
+                    },
+                  ),
                 ),
+              ),
+            ],
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ),
+          SizedBox(
+            height: 25,
+          ),
+          Row(
+            // mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(
+                height: 10,
+              ),
+              Column(
+                children: <Widget>[
+                  Container(
+                    child: toolWidget,
+                  ),
+                ],
               ),
             ],
           ),

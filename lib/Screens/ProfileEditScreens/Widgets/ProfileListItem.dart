@@ -16,17 +16,12 @@ class ProfileListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,
-      height: 60,
+      height: MediaQuery.of(context).size.height * 0.08,
       margin: EdgeInsets.only(bottom: 15),
-      // margin: EdgeInsets.symmetric(
-      //   horizontal: kSpacingUnit * 4,
-      // ).copyWith(
-      //   bottom: kSpacingUnit * 2,
-      // ),
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(kSpacingUnit * 2),
-        color: kDarkSecondaryColor,
+        color: Colors.indigo.shade700,
       ),
       child: Row(
         children: <Widget>[
@@ -47,7 +42,7 @@ class ProfileListItem extends StatelessWidget {
           Spacer(),
           LineIcon(
             LineIcons.angleRight,
-            size: kSpacingUnit * 2.5,
+            size: kSpacingUnit * 3,
             color: kAccentColor,
           ),
         ],

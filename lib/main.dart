@@ -1,16 +1,24 @@
 import 'package:farmx/Screens/LandingScreen.dart';
 import 'package:farmx/Services/location.dart';
+import 'package:farmx/generated/l10n.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'Services/auth.dart';
-import 'package:farmx/generated/l10n.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  SystemChrome.setEnabledSystemUIOverlays(
+    [
+      SystemUiOverlay.bottom,
+      SystemUiOverlay.top,
+    ],
+  );
+  // SystemUiOverlayStyle(statusBarColor: Colors.white)
   runApp(MyApp());
 }
 
@@ -29,6 +37,13 @@ class MyApp extends StatelessWidget {
           title: "FarmX",
           theme: ThemeData(
             primarySwatch: Colors.indigo,
+            primaryTextTheme: TextTheme(
+              headline6: TextStyle(
+                color: Colors.white,
+                fontFamily: 'Roboto',
+                fontSize: 20.0,
+              ),
+            ),
           ),
           localizationsDelegates: [
             S.delegate,

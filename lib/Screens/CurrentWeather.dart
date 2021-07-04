@@ -2,9 +2,8 @@ import 'dart:convert';
 import 'dart:ui' as ui;
 import 'dart:ui';
 
-import 'package:farmx/Constants/Constants.dart';
 import 'package:farmx/Screens/Weather.dart';
-import 'package:farmx/Screens/currentWeatherScreen.dart';
+import 'package:farmx/Screens/WeatherDetailsScreen.dart';
 import 'package:farmx/Screens/weather/models/location.dart';
 import 'package:farmx/Services/location.dart';
 import 'package:flutter/material.dart';
@@ -24,177 +23,89 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
   ];
   @override
   Widget build(BuildContext context) {
-    // Weather? _weather;
-    return SingleChildScrollView(
-        child: Center(
-            child: GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute<void>(
-            fullscreenDialog: true,
-            builder: (context) => CurrentWeatherScreenPage(locations, context),
-          ),
-        );
-      },
-      child: Container(
+    return Center(
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              fullscreenDialog: true,
+              builder: (context) => WeatherDetailsScreen(locations, context),
+            ),
+          );
+        },
+        child: Container(
           padding: const EdgeInsets.all(5.0),
-          margin: const EdgeInsets.all(5.0),
-          height: MediaQuery.of(context).size.height * 0.2,
+          height: MediaQuery.of(context).size.height * 0.15,
           width: MediaQuery.of(context).size.width * 0.8,
           decoration: BoxDecoration(
-            color: kDarkPrimaryColor,
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Row(
-            children: [
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Image(
                   image: AssetImage("assets/icons/weatherblack.png"),
                   width: 100,
                   height: 100,
-                  color: Colors.white,
                 ),
               ),
-              FutureBuilder(
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    Weather? _weather = snapshot.data as Weather?;
-                    if (_weather == null) {
-                      return Text("error getting weather data");
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: FutureBuilder(
+                  future: getCurrentWeather(context),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      Weather? _weather = snapshot.data as Weather?;
+                      if (_weather == null) {
+                        return Text("Error in Connecting :( !");
+                      } else {
+                        return weatherBox(_weather, context);
+                      }
                     } else {
-                      return weatherBox(_weather);
+                      return Container(
+                        child: CircularProgressIndicator(
+                          color: Colors.indigo,
+                        ),
+                      );
                     }
-                  } else {
-                    return Text("oops!!");
-                  }
-                },
-                future: getCurrentWeather(context),
+                  },
+                ),
               ),
             ],
-          )),
-    )));
+          ),
+        ),
+      ),
+    );
   }
 }
 
-Widget weatherBox(Weather _weather) {
+Widget weatherBox(Weather _weather, BuildContext context) {
   return SingleChildScrollView(
     child: Column(
       children: <Widget>[
         Container(
-            margin: const EdgeInsets.all(10),
-            child: Text(
-              "${_weather.temp}°C",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 40,
-                color: Colors.white,
-              ),
-            )),
+          margin: const EdgeInsets.all(10),
+          child: Text(
+            "${_weather.temp}°C",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: MediaQuery.of(context).size.width * 0.08,
+              color: Colors.black,
+            ),
+          ),
+        ),
         Text(
           "${_weather.description[0].toUpperCase()}${_weather.description.substring(1)}",
           style: TextStyle(
             fontWeight: FontWeight.w500,
-            fontSize: 15,
-            color: Colors.white,
+            fontSize: MediaQuery.of(context).size.width * 0.04,
+            color: Colors.black,
           ),
         ),
-        SizedBox(
-          height: 10,
-        ),
-        Text(
-          "Feels Like:${_weather.feelsLike}°C",
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 12,
-            color: Colors.white,
-          ),
-        ),
-        // style: TextStyle(
-        //     fontWeight: FontWeight.normal,
-        //     fontSize: 13,
-        //     color: Colors.white))
-        // Text("H:${_weather.high}°C   L:${_weather.low}°C"),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.start,
-        //   crossAxisAlignment: CrossAxisAlignment.start,
-        //   children: [
-        //     Column(
-        //       children: [
-        //         Container(
-        //             child: Text(
-        //           "Wind",
-        //           textAlign: TextAlign.left,
-        //           style: TextStyle(
-        //               fontWeight: FontWeight.w600,
-        //               fontSize: 12,
-        //               color: Colors.black),
-        //         )),
-        //         Container(
-        //             child: Text(
-        //           "${_weather.wind} km/h",
-        //           textAlign: TextAlign.left,
-        //           style: TextStyle(
-        //               fontWeight: FontWeight.w700,
-        //               fontSize: 15,
-        //               color: Colors.black),
-        //         )),
-        //       ],
-        //     ),
-        //     SizedBox(
-        //       width: 5,
-        //     ),
-        //     Column(
-        //       children: [
-        //         Container(
-        //             child: Text(
-        //           "Humidity",
-        //           textAlign: TextAlign.left,
-        //           style: TextStyle(
-        //               fontWeight: FontWeight.w600,
-        //               fontSize: 12,
-        //               color: Colors.black),
-        //         )),
-        //         Container(
-        //             child: Text(
-        //           "${_weather.humidity.toInt()}%",
-        //           textAlign: TextAlign.left,
-        //           style: TextStyle(
-        //               fontWeight: FontWeight.w700,
-        //               fontSize: 15,
-        //               color: Colors.black),
-        //         ))
-        //       ],
-        //     ),
-        //     SizedBox(
-        //       width: 5,
-        //     ),
-        //     Column(
-        //       children: [
-        //         Container(
-        //             child: Text(
-        //           "Pressure",
-        //           textAlign: TextAlign.left,
-        //           style: TextStyle(
-        //               fontWeight: FontWeight.w600,
-        //               fontSize: 12,
-        //               color: Colors.black),
-        //         )),
-        //         Container(
-        //             child: Text(
-        //           "${_weather.pressure} hPa",
-        //           textAlign: TextAlign.left,
-        //           style: TextStyle(
-        //               fontWeight: FontWeight.w700,
-        //               fontSize: 15,
-        //               color: Colors.black),
-        //         ))
-        //       ],
-        //     )
-        //   ],
-        // )
       ],
     ),
   );

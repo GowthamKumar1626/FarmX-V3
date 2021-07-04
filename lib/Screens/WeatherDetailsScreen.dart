@@ -1,23 +1,24 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
+
+import 'package:farmx/Screens/weather.dart';
+import 'package:farmx/Screens/weather/models/extensions.dart';
 import 'package:farmx/Screens/weather/models/forcast.dart';
 import 'package:farmx/Screens/weather/models/location.dart';
-import 'package:farmx/Screens/weather.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:farmx/Screens/weather/models/extensions.dart';
 import 'package:intl/intl.dart';
 
-class CurrentWeatherScreenPage extends StatefulWidget {
+class WeatherDetailsScreen extends StatefulWidget {
   final List<Location> locations;
   final BuildContext context;
-  const CurrentWeatherScreenPage(this.locations, this.context);
+  const WeatherDetailsScreen(this.locations, this.context);
 
   @override
   _CurrentWeatherPageState createState() =>
       _CurrentWeatherPageState(this.locations, this.context);
 }
 
-class _CurrentWeatherPageState extends State<CurrentWeatherScreenPage> {
+class _CurrentWeatherPageState extends State<WeatherDetailsScreen> {
   final List<Location> locations;
   final Location location;
   final BuildContext context;
@@ -342,46 +343,43 @@ Image getWeatherIconSmall(String _icon) {
 
 Widget hourlyBoxes(Forecast _forecast) {
   return Container(
-      margin: EdgeInsets.symmetric(vertical: 0.0),
-      height: 150.0,
-      child: ListView.builder(
-          padding: const EdgeInsets.only(left: 8, top: 0, bottom: 0, right: 8),
-          scrollDirection: Axis.horizontal,
-          itemCount: _forecast.hourly.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-                padding: const EdgeInsets.only(
-                    left: 10, top: 15, bottom: 15, right: 10),
-                margin: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(18)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.1),
-                        spreadRadius: 2,
-                        blurRadius: 2,
-                        offset: Offset(0, 1), // changes position of shadow
-                      )
-                    ]),
-                child: Column(children: [
-                  Text(
-                    "${_forecast.hourly[index].temp}°",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 17,
-                        color: Colors.black),
-                  ),
-                  // getWeatherIcon(_forecast.hourly[index].icon),
-                  // Text(
-                  //   "${getTimeFromTimestamp(_forecast.hourly[index].dt)}",
-                  //   style: TextStyle(
-                  //       fontWeight: FontWeight.w600,
-                  //       fontSize: 12,
-                  //       color: Colors.grey),
-                  // ),
-                ]));
-          }));
+    margin: EdgeInsets.symmetric(vertical: 0.0),
+    height: 150.0,
+    child: ListView.builder(
+      padding: const EdgeInsets.only(left: 8, top: 0, bottom: 0, right: 8),
+      scrollDirection: Axis.horizontal,
+      itemCount: _forecast.hourly.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Container(
+          padding:
+              const EdgeInsets.only(left: 10, top: 15, bottom: 15, right: 10),
+          margin: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(18)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.1),
+                  spreadRadius: 2,
+                  blurRadius: 2,
+                  offset: Offset(0, 1), // changes position of shadow
+                )
+              ]),
+          child: Column(
+            children: [
+              Text(
+                "${_forecast.hourly[index].temp}°",
+                style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 17,
+                    color: Colors.black),
+              ),
+            ],
+          ),
+        );
+      },
+    ),
+  );
 }
 
 String getTimeFromTimestamp(int timestamp) {
@@ -398,32 +396,34 @@ String getDateFromTimestamp(int timestamp) {
 
 Widget dailyBoxes(Forecast _forcast) {
   return Expanded(
-      child: ListView.builder(
-          shrinkWrap: true,
-          physics: ClampingScrollPhysics(),
-          padding: const EdgeInsets.only(left: 8, top: 0, bottom: 0, right: 8),
-          itemCount: _forcast.daily.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-                padding: const EdgeInsets.only(
-                    left: 10, top: 5, bottom: 5, right: 10),
-                margin: const EdgeInsets.all(5),
-                child: Row(children: [
-                  // Expanded(
-                  //     child: Text(
-                  //   "${getDateFromTimestamp(_forcast.daily[index].dt)}",
-                  //   style: TextStyle(fontSize: 14, color: Colors.black),
-                  // )),
-                  // Expanded(
-                  //     child: getWeatherIconSmall(_forcast.daily[index].icon)),
-                  Expanded(
-                      child: Text(
-                    "${_forcast.daily[index].high!.toInt()}/${_forcast.daily[index].low!.toInt()}",
-                    textAlign: TextAlign.right,
-                    style: TextStyle(fontSize: 14, color: Colors.grey),
-                  )),
-                ]));
-          }));
+    child: ListView.builder(
+      shrinkWrap: true,
+      physics: ClampingScrollPhysics(),
+      padding: const EdgeInsets.only(left: 8, top: 0, bottom: 0, right: 8),
+      itemCount: _forcast.daily.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Container(
+          padding:
+              const EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 10),
+          margin: const EdgeInsets.all(5),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  "${_forcast.daily[index].high!.toInt()}/${_forcast.daily[index].low!.toInt()}",
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    ),
+  );
 }
 
 class Clipper extends CustomClipper<Path> {
