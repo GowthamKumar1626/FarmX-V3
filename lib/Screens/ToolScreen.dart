@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:farmx/CommonWidgets/CategoryButton.dart';
 import 'package:farmx/CommonWidgets/ThemeTemplate.dart';
 import 'package:farmx/Screens/CurrentWeather.dart';
 import 'package:farmx/Screens/UserProfileScreen.dart';
@@ -155,13 +156,13 @@ class _ToolScreenState extends State<ToolScreen> {
 
 class ToolContainer extends StatelessWidget {
   final int index;
-  final VoidCallback? setCurrentIndex;
+  final VoidCallback setCurrentIndex;
   final Function() getCurrentIndex;
 
   ToolContainer({
     required this.index,
     required this.getCurrentIndex,
-    this.setCurrentIndex,
+    required this.setCurrentIndex,
   });
 
   @override
@@ -169,47 +170,8 @@ class ToolContainer extends StatelessWidget {
     return CategoryButton(
       image: AssetImage(toolIcons[index].imgPath),
       color: toolIcons[index].color,
-      onPressed: () => setCurrentIndex!(),
+      onPressed: () => setCurrentIndex(),
       isSelected: getCurrentIndex() == index,
-    );
-  }
-}
-
-class CategoryButton extends StatelessWidget {
-  final AssetImage image;
-  final Color color;
-  final Function() onPressed;
-  final bool isSelected;
-
-  CategoryButton({
-    required this.image,
-    required this.color,
-    required this.onPressed,
-    required this.isSelected,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return RawMaterialButton(
-      onPressed: onPressed,
-      elevation: 0,
-      highlightElevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      fillColor: isSelected ? color.withAlpha(100) : kLightGrey,
-      constraints: BoxConstraints.tightFor(
-        width: 70,
-        height: 85,
-      ),
-      child: CircleAvatar(
-        radius: 25,
-        backgroundColor: Colors.transparent,
-        backgroundImage: image,
-      ),
-      // child: Icon(
-      //   icon,
-      //   size: 30,
-      //   color: color,
-      // ),
     );
   }
 }

@@ -8,29 +8,16 @@ import 'package:http/http.dart';
 // from the API and get the Articles and then return a list of Articles
 
 class ApiService {
-  //let's add an Endpoint URL, you can check the website documentation
-  // and learn about the different Endpoint
-  //for this example I'm going to use a single endpoint
+  Future<List<Article>> getArticle(String api) async {
+    var endPointUrl = Uri.parse(api);
 
-  //NOTE: make sure to use your OWN apikey, you can make a free acount and
-  // choose a developer option it's FREE
-  var endPointUrl = Uri.parse(
-    "https://newsapi.org/v2/everything?q=agriculture&from=2021-06-28&to=2021-06-28&sortBy=popularity&apiKey=c9707391546b4a81ad51e88d2f302b25",
-  );
-
-  //Now let's create the http request function
-  // but first let's import the http package
-
-  Future<List<Article>> getArticle() async {
     Response res = await get(endPointUrl);
 
-    //first of all let's check that we got a 200 statu code: this mean that the request was a succes
     if (res.statusCode == 200) {
       Map<String, dynamic> json = jsonDecode(res.body);
 
       List<dynamic> body = json['articles'];
 
-      //this line will allow us to get the different articles from the json file and putting them into a list
       List<Article> articles =
           body.map((dynamic item) => Article.fromJson(item)).toList();
 
