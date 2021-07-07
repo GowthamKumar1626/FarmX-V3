@@ -1,4 +1,4 @@
-import 'package:farmx/Constants/Constants.dart';
+import 'package:farmx/CommonWidgets/ThemeTemplate.dart';
 import 'package:farmx/newsfeed/components/customListTile.dart';
 import 'package:farmx/newsfeed/model/article_model.dart';
 import 'package:farmx/newsfeed/services/api_service.dart';
@@ -16,43 +16,35 @@ class _HomePageState extends State<NewsFeedScreen> {
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarColor(Colors.white);
-    return Scaffold(
-      backgroundColor: kDarkPrimaryColor,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: kDarkPrimaryColor,
-        elevation: 0.0,
-        title: Text(
-          "NewsFeed",
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: 'Roboto',
-            fontSize: 18.0,
-          ),
-        ),
-        centerTitle: true,
-      ),
-      body: Container(
-        child: FutureBuilder(
-          future: client.getArticle(),
-          builder:
-              (BuildContext context, AsyncSnapshot<List<Article>> snapshot) {
-            if (snapshot.hasData) {
-              List<Article> articles = snapshot.data!;
-              return ListView.builder(
-                itemCount: articles.length,
-                itemBuilder: (context, index) =>
-                    customListTile(articles[index], context),
+    return ThemeTemplate(
+      title: "News Feed",
+      childPosition: MediaQuery.of(context).size.height * 0.1,
+      child: Column(
+        children: <Widget>[
+          FutureBuilder(
+            future: client.getArticle(),
+            builder:
+                (BuildContext context, AsyncSnapshot<List<Article>> snapshot) {
+              if (snapshot.hasData) {
+                List<Article> articles = snapshot.data!;
+                return Container(
+                  height: MediaQuery.of(context).size.height,
+                  child: ListView.builder(
+                    itemCount: articles.length,
+                    itemBuilder: (context, index) =>
+                        customListTile(articles[index], context),
+                  ),
+                );
+              }
+              return Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+                // child: new Text("Loading"),
               );
-            }
-            return Center(
-              child: CircularProgressIndicator(
-                color: Colors.white,
-              ),
-              // child: new Text("Loading"),
-            );
-          },
-        ),
+            },
+          ),
+        ],
       ),
     );
   }

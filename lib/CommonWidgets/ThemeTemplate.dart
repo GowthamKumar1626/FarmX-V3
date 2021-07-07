@@ -43,7 +43,7 @@ class ThemeTemplate extends StatelessWidget {
               children: <Widget>[
                 Container(
                   height:
-                      pageHeight ?? MediaQuery.of(context).size.height * 1.2,
+                      pageHeight ?? MediaQuery.of(context).size.height - 100.0,
                   width: MediaQuery.of(context).size.width,
                   constraints: BoxConstraints(
                     maxHeight: double.infinity,
