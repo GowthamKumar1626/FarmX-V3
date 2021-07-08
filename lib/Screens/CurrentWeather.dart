@@ -5,7 +5,7 @@ import 'dart:ui';
 import 'package:farmx/Screens/Weather.dart';
 import 'package:farmx/Screens/WeatherDetailsScreen.dart';
 import 'package:farmx/Screens/weather/models/location.dart';
-import 'package:farmx/Services/location.dart';
+import 'package:farmx/Services/location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';

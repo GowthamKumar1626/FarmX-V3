@@ -1,5 +1,5 @@
 import 'package:farmx/Screens/LandingScreen.dart';
-import 'package:farmx/Services/location.dart';
+import 'package:farmx/Services/location_service.dart';
 import 'package:farmx/generated/l10n.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

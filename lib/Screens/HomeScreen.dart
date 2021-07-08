@@ -2,12 +2,11 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:farmx/Screens/AboutUsScreen.dart';
 import 'package:farmx/Screens/NewsFeedScreen.dart';
-import 'package:farmx/Screens/PostsScreen.dart';
+import 'package:farmx/Screens/Posts/PostsScreen.dart';
 import 'package:farmx/Screens/ToolScreen.dart';
 import 'package:farmx/Services/auth.dart';
 import 'package:farmx/Widgets/Tools/shop.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,9 +15,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-//   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-//   statusBarColor: Colors.white
-// ));
   int currentIndex = 2;
 
   var _pages = [
@@ -33,7 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.white);
     final auth = Provider.of<AuthBase>(context, listen: false);
 
     return Scaffold(

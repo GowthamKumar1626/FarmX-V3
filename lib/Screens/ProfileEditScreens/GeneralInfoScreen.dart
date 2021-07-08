@@ -1,7 +1,7 @@
 import 'package:farmx/Constants/Constants.dart';
 import 'package:farmx/Services/Models/UserModel.dart';
 import 'package:farmx/Services/database.dart';
-import 'package:farmx/Services/location.dart';
+import 'package:farmx/Services/location_service.dart';
 import 'package:farmx/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';

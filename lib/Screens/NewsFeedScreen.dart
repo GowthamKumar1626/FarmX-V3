@@ -17,7 +17,7 @@ class _HomePageState extends State<NewsFeedScreen> {
   int currentIndex = 0;
   String topic = "agriculture";
   String get _api =>
-      "https://newsapi.org/v2/everything?q=$topic&from=2021-06-28&to=2021-06-28&sortBy=popularity&apiKey=c9707391546b4a81ad51e88d2f302b25";
+      "https://newsapi.org/v2/everything?q=$topic&sortBy=popularity&apiKey=c9707391546b4a81ad51e88d2f302b25";
 
   @override
   Widget build(BuildContext context) {

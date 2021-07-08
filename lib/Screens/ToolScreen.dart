@@ -34,29 +34,25 @@ class _ToolScreenState extends State<ToolScreen> {
     return ThemeTemplate(
       title: "Home",
       actions: <Widget>[
-        GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => Provider<Database>(
-                  create: (_) => FireStoreDatabase(uid: auth.currentUser!.uid),
-                  builder: (context, child) => UserProfileScreen(),
-                ),
-              ),
-            );
-          },
-          child: Container(
-            margin: EdgeInsets.only(
-              right: MediaQuery.of(context).size.width * 0.05,
-              top: MediaQuery.of(context).size.height * 0.008,
-            ),
-            child: Image(
-              image: AssetImage("assets/icons/settings.png"),
-              width: 30,
-              height: 30,
+        Container(
+          margin: EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+          child: IconButton(
+            icon: Image.asset(
+              "assets/icons/settings.png",
               color: Colors.white,
             ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => Provider<Database>(
+                    create: (_) =>
+                        FireStoreDatabase(uid: auth.currentUser!.uid),
+                    builder: (context, child) => UserProfileScreen(),
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ],
@@ -72,84 +68,92 @@ class _ToolScreenState extends State<ToolScreen> {
           SizedBox(
             height: 20,
           ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: SizedBox(
-                  height: 70.0,
-                  child: new ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: toolIcons.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ToolContainer(
-                        index: index,
-                        getCurrentIndex: () => currentIndex,
-                        setCurrentIndex: () {
-                          setState(
-                            () {
-                              currentIndex = index;
-                              title = toolIcons[index].name;
-                              switch (title) {
-                                case "Pest Detection":
-                                  toolWidget = PestDetectionWidget();
-                                  break;
-                                case "Fertilizer":
-                                  toolWidget = FertilizerSuggestionWidget();
-                                  break;
-                                case "Crop Suggestion":
-                                  toolWidget = CropSuggestionWidget();
-                                  break;
-                                case "General Crop-Info":
-                                  toolWidget = GeneralCropInfoWidget();
-                                  break;
-                                case "Co-Farming":
-                                  toolWidget = CoFarmingWidget();
-                                  break;
-
-                                default:
-                                  toolWidget = Container(
-                                    child: Text(
-                                      "Tool will be implemented Soon!",
-                                      style: kDefaultStyle,
-                                    ),
-                                  );
-                              }
-                            },
-                          );
-                        },
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return SizedBox(
-                        width: 5,
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ],
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          ),
+          _toolIconsHorizontalScroll(),
           SizedBox(
             height: 25,
           ),
-          Row(
-            // mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(
-                height: 10,
-              ),
-              Column(
-                children: <Widget>[
-                  Container(
-                    child: toolWidget,
-                  ),
-                ],
-              ),
-            ],
-          ),
+          _toolWidgetBuilder(),
         ],
       ),
+    );
+  }
+
+  Row _toolIconsHorizontalScroll() {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: SizedBox(
+            height: 70.0,
+            child: new ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: toolIcons.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ToolContainer(
+                  index: index,
+                  getCurrentIndex: () => currentIndex,
+                  setCurrentIndex: () {
+                    setState(
+                      () {
+                        currentIndex = index;
+                        title = toolIcons[index].name;
+                        switch (title) {
+                          case "Pest Detection":
+                            toolWidget = PestDetectionWidget();
+                            break;
+                          case "Fertilizer":
+                            toolWidget = FertilizerSuggestionWidget();
+                            break;
+                          case "Crop Suggestion":
+                            toolWidget = CropSuggestionWidget();
+                            break;
+                          case "General Crop-Info":
+                            toolWidget = GeneralCropInfoWidget();
+                            break;
+                          case "Co-Farming":
+                            toolWidget = CoFarmingWidget();
+                            break;
+
+                          default:
+                            toolWidget = Container(
+                              child: Text(
+                                "Tool will be implemented Soon!",
+                                style: kDefaultStyle,
+                              ),
+                            );
+                        }
+                      },
+                    );
+                  },
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return SizedBox(
+                  width: 5,
+                );
+              },
+            ),
+          ),
+        ),
+      ],
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    );
+  }
+
+  Widget _toolWidgetBuilder() {
+    return Row(
+      // mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(
+          height: 10,
+        ),
+        Column(
+          children: <Widget>[
+            Container(
+              child: toolWidget,
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
