@@ -57,7 +57,8 @@ class _PostHeader extends StatelessWidget {
     return Row(
       children: <Widget>[
         ProfileAvatar(
-          imageUrl: post.imageUrl ?? "assets/icons/profile-user.png",
+          imageUrl: post.imageUrl ??
+              "https://img.republicworld.com/republic-prod/stories/promolarge/xhdpi/e5uz3hohacjxhdga_1595409485.jpeg",
         ),
         const SizedBox(
           width: 8.0,

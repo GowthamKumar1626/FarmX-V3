@@ -5,7 +5,8 @@ List<Post> posts = [
     timeAgo: "12m",
     caption:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    imageUrl: "https://photos.app.goo.gl/K7yxVzqGvqpFvtyn7",
+    imageUrl:
+        "https://storage.googleapis.com/gd-wagtail-prod-assets/original_images/evolving_google_identity_2x1.jpg",
   ),
   Post(
     userName: "Harsha",
@@ -16,6 +17,8 @@ List<Post> posts = [
   Post(
     userName: "Sowmya",
     timeAgo: "32m",
+    caption:
+        "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
   ),
   Post(
     userName: "Pranathi",

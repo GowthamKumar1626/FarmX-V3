@@ -19,7 +19,9 @@ class PostContainer extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
-              ProfileAvatar(imageUrl: "assets/icons/profile-user.png"),
+              ProfileAvatar(
+                  imageUrl:
+                      "https://img.republicworld.com/republic-prod/stories/promolarge/xhdpi/e5uz3hohacjxhdga_1595409485.jpeg"),
               const SizedBox(
                 width: 8.0,
               ),
