@@ -23,7 +23,7 @@ class _HomePageState extends State<NewsFeedScreen> {
   Widget build(BuildContext context) {
     return ThemeTemplate(
       title: "News Feed",
-      childPosition: MediaQuery.of(context).size.height * 0.1,
+      childPosition: MediaQuery.of(context).size.height * 0.06,
       child: Column(
         children: <Widget>[
           Row(
@@ -47,45 +47,7 @@ class _HomePageState extends State<NewsFeedScreen> {
               SizedBox(
                 width: 5.0,
               ),
-              Expanded(
-                child: SizedBox(
-                  height: 70.0,
-                  child: new ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: newsItemIcons.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return NewsItemsContainer(
-                        index: index,
-                        getCurrentIndex: () => currentIndex,
-                        setCurrentIndex: () {
-                          setState(() {
-                            currentIndex = index;
-                            switch (index) {
-                              case 0:
-                                topic = "agriculture";
-                                break;
-                              case 1:
-                                topic = "market";
-                                break;
-                              case 2:
-                                topic = "technology";
-                                break;
-                              default:
-                                topic = "farmers";
-                                break;
-                            }
-                          });
-                        },
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return SizedBox(
-                        width: 5,
-                      );
-                    },
-                  ),
-                ),
-              ),
+              _buildNewsIcons(),
             ],
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
           ),
@@ -116,6 +78,48 @@ class _HomePageState extends State<NewsFeedScreen> {
             },
           ),
         ],
+      ),
+    );
+  }
+
+  Expanded _buildNewsIcons() {
+    return Expanded(
+      child: SizedBox(
+        height: 70.0,
+        child: new ListView.separated(
+          scrollDirection: Axis.horizontal,
+          itemCount: newsItemIcons.length,
+          itemBuilder: (BuildContext context, int index) {
+            return NewsItemsContainer(
+              index: index,
+              getCurrentIndex: () => currentIndex,
+              setCurrentIndex: () {
+                setState(() {
+                  currentIndex = index;
+                  switch (index) {
+                    case 0:
+                      topic = "agriculture";
+                      break;
+                    case 1:
+                      topic = "market";
+                      break;
+                    case 2:
+                      topic = "technology";
+                      break;
+                    default:
+                      topic = "farmers";
+                      break;
+                  }
+                });
+              },
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return SizedBox(
+              width: 5,
+            );
+          },
+        ),
       ),
     );
   }

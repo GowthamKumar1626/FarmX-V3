@@ -56,7 +56,7 @@ class _ToolScreenState extends State<ToolScreen> {
           ),
         ),
       ],
-      childPosition: MediaQuery.of(context).size.height * 0.08,
+      childPosition: MediaQuery.of(context).size.height * 0.06,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

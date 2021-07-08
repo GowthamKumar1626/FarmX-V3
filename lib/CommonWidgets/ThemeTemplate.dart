@@ -51,7 +51,7 @@ class ThemeTemplate extends StatelessWidget {
                   color: Colors.transparent,
                 ),
                 Positioned(
-                  top: MediaQuery.of(context).size.height * 0.05,
+                  top: MediaQuery.of(context).size.height * 0.02,
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
@@ -66,8 +66,8 @@ class ThemeTemplate extends StatelessWidget {
                 ),
                 userIcon ?? Container(),
                 Positioned(
-                  top: childPosition ??
-                      MediaQuery.of(context).size.height * 0.12,
+                  top:
+                      childPosition ?? MediaQuery.of(context).size.height * 0.1,
                   left: 16,
                   right: 16,
                   child: Container(

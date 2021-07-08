@@ -35,7 +35,7 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
         },
         child: Container(
           padding: const EdgeInsets.all(5.0),
-          height: MediaQuery.of(context).size.height * 0.15,
+          height: MediaQuery.of(context).size.height * 0.16,
           width: MediaQuery.of(context).size.width * 0.8,
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
