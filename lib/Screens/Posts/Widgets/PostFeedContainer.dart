@@ -92,10 +92,86 @@ class _PostStats extends StatelessWidget {
               '${post.shares} Shares',
               style: TextStyle(color: Colors.grey[600]),
             ),
-            Divider(),
+          ],
+        ),
+        Divider(),
+        Row(
+          children: [
+            Expanded(
+              child: IconButton(
+                icon: Icon(
+                  Icons.thumb_up_outlined,
+                  color: Colors.grey[600],
+                  size: 20.0,
+                ),
+                onPressed: () {
+                  print('Like');
+                },
+                // onTap: () => print('Like'),
+              ),
+            ),
+            Expanded(
+              child: IconButton(
+                icon: Icon(
+                  Icons.comment_outlined,
+                  color: Colors.grey[600],
+                  size: 20.0,
+                ),
+                onPressed: () {
+                  print('Comment');
+                },
+                // onTap: () => print('Comment'),
+              ),
+            ),
+            Expanded(
+              child: IconButton(
+                icon: Icon(
+                  Icons.share_outlined,
+                  color: Colors.grey[600],
+                  size: 25.0,
+                ),
+                onPressed: () {
+                  print('Share');
+                },
+                // onTap: () => print('Share'),
+              ),
+            ),
           ],
         ),
       ],
+    );
+  }
+}
+
+class _PostButton extends StatelessWidget {
+  final Icon icon;
+  final String label;
+
+  const _PostButton({
+    required this.icon,
+    required this.label,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Material(
+        color: Colors.white,
+        child: InkWell(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            height: 25.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                icon,
+                const SizedBox(width: 4.0),
+                Text(label),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
