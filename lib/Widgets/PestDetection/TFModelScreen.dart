@@ -19,6 +19,7 @@ class TFModelScreen extends StatelessWidget {
       body: PestModel(
         modelPath: pestCrops[cropIndex].modelPath,
         labelPath: pestCrops[cropIndex].labelPath,
+        numResults: pestCrops[cropIndex].numResults,
       ),
     );
   }

@@ -7,9 +7,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tflite/tflite.dart';
 
 class PestModel extends StatefulWidget {
-  PestModel({required this.modelPath, required this.labelPath});
+  PestModel({
+    required this.modelPath,
+    required this.labelPath,
+    required this.numResults,
+  });
   final String modelPath;
   final String labelPath;
+  final int numResults;
   @override
   _PestModelState createState() => _PestModelState();
 }
@@ -29,18 +34,16 @@ class _PestModelState extends State<PestModel> {
   void initState() {
     super.initState();
     // load TFLite Model
-    loadModel().then((value) {
-      setState(() {});
-    });
+    loadModel().then((value) {});
   }
 
 // Function to perform TFLite Inference
   Future classifyImage(File image) async {
     var output = await Tflite.runModelOnImage(
         path: image.path, // required
-        imageMean: 0.0, // defaults to 117.0
-        imageStd: 255.0, // defaults to 1.0
-        numResults: 38, // defaults to 5
+        imageMean: 127.5, // defaults to 117.0
+        imageStd: 127.5, // defaults to 1.0
+        numResults: 4, // defaults to 5
         threshold: 0.2, // defaults to 0.1
         asynch: true // defaults to true
         );
@@ -50,7 +53,7 @@ class _PestModelState extends State<PestModel> {
       _loading = false;
       print(_output);
       confidence = _output != null
-          ? (_output![0]['confidence'] * 100.0).toString().substring(0, 2) + "%"
+          ? (_output![0]['confidence'] * 100.0).toString().substring(0, 3) + "%"
           : " ";
 
       disease = _output![0]['label'];
@@ -60,13 +63,11 @@ class _PestModelState extends State<PestModel> {
 
   // Function to Load Model
   Future loadModel() async {
-    // define model path and labels path
     await Tflite.loadModel(
-      // model: widget.modelPath,
-      // labels: widget.labelPath,
-      model: 'assets/models/model.tflite',
-      labels: 'assets/models/labels.txt',
-      numThreads: 1,
+      model: "assets/models/apple_model/apple_model.tflite",
+      labels: "assets/models/apple_model/labels.txt",
+      // model: 'assets/models/model.tflite',
+      // labels: 'assets/models/labels.txt',
     );
   }
 
@@ -78,13 +79,11 @@ class _PestModelState extends State<PestModel> {
   }
 
   Future pickImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    final image = await picker.getImage(source: ImageSource.camera);
+
+    if (image == null) return null;
     setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
+      _image = File(image.path);
     });
     classifyImage(_image);
   }

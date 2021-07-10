@@ -34,12 +34,68 @@ class PostFeedContainer extends StatelessWidget {
             ),
           ),
           post.imageUrl != null
-              ? CachedNetworkImage(
-                  imageUrl: post.imageUrl!,
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: CachedNetworkImage(
+                    imageUrl: post.imageUrl!,
+                  ),
                 )
               : const SizedBox.shrink(),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.0),
+            child: _PostStats(post: post),
+          ),
         ],
       ),
+    );
+  }
+}
+
+class _PostStats extends StatelessWidget {
+  const _PostStats({Key? key, required this.post}) : super(key: key);
+  final Post post;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.all(4.0),
+              decoration: BoxDecoration(
+                color: Colors.indigo,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.thumb_up,
+                size: 10,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(
+              width: 4.0,
+            ),
+            Expanded(
+              child: Text(
+                '${post.likes}',
+                style: TextStyle(color: Colors.grey[600]),
+              ),
+            ),
+            Text(
+              '${post.comments} Comments',
+              style: TextStyle(color: Colors.grey[600]),
+            ),
+            SizedBox(
+              width: 8.0,
+            ),
+            Text(
+              '${post.shares} Shares',
+              style: TextStyle(color: Colors.grey[600]),
+            ),
+            Divider(),
+          ],
+        ),
+      ],
     );
   }
 }
